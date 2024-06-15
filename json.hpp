@@ -25,6 +25,7 @@ public:
     virtual bool key_indexable() const;
     virtual bool is_leaf() const;
     virtual std::ostream &dump(std::ostream &os) const;
+    virtual Node *clone() const;
     friend std::ostream &operator<<(std::ostream &os, const Node &node)
     {
         return node.dump(os);
@@ -57,6 +58,7 @@ public:
     bool is_leaf() const override;
     std::optional<std::string> value() const;
     std::ostream &dump(std::ostream &os) const override;
+    virtual ValueNode *clone() const override;
 };
 
 class KeyIndexableNodeI : public Node
@@ -89,6 +91,7 @@ public:
     }
     Proxy<Node> operator[](std::string key) override;
     std::ostream &dump(std::ostream &os) const override;
+    virtual ObjectNode *clone() const override;
 };
 
 class ArrayNode : public IndexableNodeI
@@ -108,6 +111,7 @@ public:
     size_t size() const override;
     void add_child(Proxy<Node> child);
     std::ostream &dump(std::ostream &os) const override;
+    virtual ArrayNode *clone() const override;
 };
 
 class Json
@@ -138,6 +142,7 @@ public:
     Json(std::string value) : root(ValueNode::proxy(value)) {}
     Json(const char *value) : root(ValueNode::proxy(value)) {}
     Json(bool value) : root(ValueNode::proxy(value)) {}
+    Json clone() const;
     static Json array(std::initializer_list<Json> list);
     static Json array(std::vector<Json> list);
     Json operator[](std::string key);

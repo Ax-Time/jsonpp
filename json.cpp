@@ -8,6 +8,7 @@ bool Node::indexable() const { return false; }
 bool Node::key_indexable() const { return false; }
 bool Node::is_leaf() const { return false; }
 std::ostream &Node::dump(std::ostream &os) const { return os; }
+Node *Node::clone() const { return new Node(*this); }
 
 ValueNode::ValueNode() : _value() {}
 ValueNode::ValueNode(std::string value) : _value(value), _printer([](std::ostream &os, std::string value) -> std::ostream &
@@ -27,6 +28,7 @@ std::ostream &ValueNode::dump(std::ostream &os) const
         return _printer(os, value().value());
     return os << "null";
 }
+ValueNode *ValueNode::clone() const { return new ValueNode(*this); }
 
 bool KeyIndexableNodeI::key_indexable() const { return true; }
 
@@ -44,6 +46,15 @@ std::ostream &ObjectNode::dump(std::ostream &os) const
             os << ", ";
     }
     return os << "}";
+}
+ObjectNode *ObjectNode::clone() const
+{
+    auto clone = new ObjectNode();
+    for (auto &[key, child] : children)
+    {
+        clone->children[key] = child.clone();
+    }
+    return clone;
 }
 
 Proxy<Node> ArrayNode::operator[](size_t idx)
@@ -67,9 +78,22 @@ std::ostream &ArrayNode::dump(std::ostream &os) const
     }
     return os << "]";
 }
+ArrayNode *ArrayNode::clone() const
+{
+    auto clone = new ArrayNode();
+    for (auto &child : children)
+    {
+        clone->children.push_back(child.clone());
+    }
+    return clone;
+}
 
 const char *MalformedJson::what() const noexcept { return "Malformed JSON"; }
 
+Json Json::clone() const
+{
+    return Json(root.clone());
+}
 Json Json::array(std::initializer_list<Json> list)
 {
     std::vector<Json> vec(list);
