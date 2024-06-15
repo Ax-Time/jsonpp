@@ -66,8 +66,8 @@ namespace ax
          */
         Proxy<T> clone() const
         {
-            T cloned = *((*pp)->clone());
-            return Proxy<T>(cloned);
+            T *clone = (*pp)->clone();
+            return Proxy<T>(std::shared_ptr<T>(clone));
         }
         friend std::ostream &operator<<(std::ostream &os, const Proxy<T> &proxy)
         {

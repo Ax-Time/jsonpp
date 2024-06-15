@@ -41,6 +41,7 @@ namespace ax
         std::function<std::ostream &(std::ostream &, std::string)> _printer;
         std::optional<std::string> _value;
         ValueNode();
+        ValueNode(ValueNode const &) = default;
         ValueNode(std::string value);
         ValueNode(const char *value);
         template <ConvertibleToStdString T>
@@ -84,6 +85,7 @@ namespace ax
     private:
         std::map<std::string, Proxy<Node>> children;
         ObjectNode() = default;
+        ObjectNode(ObjectNode const &) = default;
 
     public:
         template <typename... Args>
@@ -102,6 +104,7 @@ namespace ax
     private:
         std::vector<Proxy<Node>> children;
         ArrayNode() = default;
+        ArrayNode(ArrayNode const &) = default;
 
     public:
         template <typename... Args>
