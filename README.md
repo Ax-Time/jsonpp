@@ -75,3 +75,36 @@ int main()
 }
 ```
 ### Clone an object
+```cpp
+#include "json.hpp"
+
+int main()
+{
+    ax::Json my_json{
+        {"age", 27}
+    };
+    ax::Json my_json_clone = my_json.clone();
+    my_json_clone["name"] = "John";
+    my_json_clone["is_student"] = false;
+    std::cout << my_json << std::endl;       // -> {"age": 27}
+    std::cout << my_json_clone << std::endl; // -> {"age": 27, "is_student": false, "name": "John"}
+    return 0;
+}
+```
+<!-- Warning! if you do not clone you will modify the original object -->
+```cpp
+#include "json.hpp"
+
+int main()
+{
+    ax::Json my_json{
+        {"age", 27}
+    };
+    ax::Json my_json_clone = my_json; // Not cloning! We are just creating a new json object that references the same underlying object!
+    my_json_clone["name"] = "John";
+    my_json_clone["is_student"] = false;
+    std::cout << my_json << std::endl;       // -> {"age": 27, "is_student": false, "name": "John"}
+    std::cout << my_json_clone << std::endl; // -> {"age": 27, "is_student": false, "name": "John"}
+    return 0;
+}
+```
