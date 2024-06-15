@@ -90,6 +90,13 @@ ArrayNode *ArrayNode::clone() const
 
 const char *MalformedJson::what() const noexcept { return "Malformed JSON"; }
 
+Json::Json(std::initializer_list<std::pair<std::string, Json>> list)
+{
+    Proxy<Node> object = ObjectNode::proxy();
+    for (auto &pair : list)
+        object.as<ObjectNode>()->operator[](pair.first).reset(pair.second.root);
+    root.reset(object);
+}
 Json Json::clone() const
 {
     return Json(root.clone());
@@ -110,6 +117,12 @@ Json Json::operator[](std::string key)
 {
     if (root->key_indexable())
         return root.as<KeyIndexableNodeI>()->operator[](key);
+    return Json();
+}
+Json Json::operator[](size_t idx)
+{
+    if (root->indexable())
+        return root.as<IndexableNodeI>()->operator[](idx);
     return Json();
 }
 Json Json::operator=(Json other)

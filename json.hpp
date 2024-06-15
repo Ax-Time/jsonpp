@@ -139,6 +139,7 @@ public:
         }
         root.reset(array);
     }
+    Json(std::initializer_list<std::pair<std::string, Json>> list);
     Json(std::string value) : root(ValueNode::proxy(value)) {}
     Json(const char *value) : root(ValueNode::proxy(value)) {}
     Json(bool value) : root(ValueNode::proxy(value)) {}
@@ -146,6 +147,7 @@ public:
     static Json array(std::initializer_list<Json> list);
     static Json array(std::vector<Json> list);
     Json operator[](std::string key);
+    Json operator[](size_t idx);
     Json operator=(Json other);
     Json operator=(std::string value);
     Json operator=(const char *value);
