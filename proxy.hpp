@@ -1,5 +1,5 @@
-#ifndef PROXY_HPP
-#define PROXY_HPP
+#ifndef AX_PROXY_HPP
+#define AX_PROXY_HPP
 
 #include <memory>
 #include <type_traits>

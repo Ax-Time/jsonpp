@@ -1,5 +1,5 @@
-#ifndef JSON_HPP
-#define JSON_HPP
+#ifndef AX_JSON_HPP
+#define AX_JSON_HPP
 
 #include "proxy.hpp"
 
