@@ -1,6 +1,8 @@
 # jsonpp
 A simple c++ library to handle json files.
 
+## Compiling
+The library requires c++20 to compile.
 
 ## Usage
 
