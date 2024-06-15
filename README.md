@@ -94,6 +94,7 @@ int main()
 }
 ```
 <!-- Warning! if you do not clone you will modify the original object -->
+:warning: If you do not clone the object, you will modify the original object.
 ```cpp
 #include "json.hpp"
 
